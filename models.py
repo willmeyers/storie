@@ -20,9 +20,10 @@ class Store(BaseModel):
     id: int
     name: str
     capabilities: typing.List[str]
-    operation_hours: typing.Dict
+    operating_hours: typing.Dict
     is_open: bool = False
     address: str
+    contact_information: typing.Dict
     latitude: float
     longitude: float
     extras: typing.Optional[typing.Dict] = None

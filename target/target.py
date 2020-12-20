@@ -8,12 +8,8 @@ from storie.target import config
 
 
 class Target(Retailer):
-    key: str = None
-
-    store: models.Store = None
-
     def __init__(self, get_closest_store_to: str = None, key: str = None, visitor_id: str = None):
-        self.credentials['user_agent'] = ''
+        self.credentials['user_agent'] = '{"User-Agent": ""}'
         self.credentials['key'] = key if key else 'ff457966e64d5e877fdbad070f276d18ecec4a01'
         self.credentials['visitor_id'] = visitor_id if visitor_id else '01767696FA7D020198F9B21FFADB8E8D'
 
@@ -21,17 +17,6 @@ class Target(Retailer):
             self.store = self.get_store(get_closest_store_to)
 
     def get_store(self, place: str, id: int = None, name: str = None) -> models.Store:
-        """ Return a Store object or None given a Taget store_id or store_name that's within the given place.
-
-        Parameters:
-            place (str): a single zipcode, name of a city, and or a state
-            store_id (int): a valid Target location id (defaults to None)
-            store_name (str): a valid Target location name (defaults to None)
-
-        Returns
-            store (models.Store): a Store object if store exists
-            None: if store does not exist
-        """
         stores = self.get_stores(place)
 
         for store in stores:
@@ -46,18 +31,7 @@ class Target(Retailer):
 
         return stores[0] if stores else None
 
-    def get_stores(self, place: str, limit: int = 20, within: int = 100) -> typing.List[models.Store]:
-        """ Returns a list of stores within an area of a given place.
-
-        Parameters:
-            place (str): a single zipcode, name of a city, and or a state
-            limit (int): the number of items returned (defaults to 20)
-            within (int): the max range to look in (defaults to 100 units)
-            unit (str): the name of unit that within uses (defaults to 'mile')
-
-        Returns:
-            list: the list of store dictionaries
-        """
+    def get_stores(self, place: str, int = 20, within: int = 100) -> typing.List[models.Store]:
         url = f'{config.TARGET_REDSKY_BASE_URL}/v3/stores/nearby/{place}'
 
         resp = requests.post(url, 
@@ -90,7 +64,7 @@ class Target(Retailer):
 
         return stores
 
-    def get_product(self, tcin):
+    def get_product(self, product_id: int):
         pass
 
     def get_products(self):
