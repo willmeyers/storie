@@ -9,7 +9,7 @@ class Retailer(ABC):
     store: models.Store = None
 
     @abstract_method
-    def get_store(self, place: str, store_id: str = None, store_name: str = None) -> Store:
+    def get_store(self, place: str, id: str = None, name: str = None) -> Store:
         """ Return a Store object or None given a Taget store_id or store_name that's within the given place.
 
         Parameters:
@@ -52,8 +52,9 @@ class Retailer(ABC):
 
     @abstract_method
     def get_products(self,
+        category: str,
         store: Store = None,
-        category: str = None,
+        query: str = None,
         page: int = 1,
         results_per_page: int = 25
     ) -> typing.List[Product]:
@@ -81,29 +82,5 @@ class Retailer(ABC):
         Returns:
             product (Product): a product object if it exists
             None: if product does not exist
-        """
-        pass
-
-    @abstract_method
-    def search(self, 
-        query: str,
-        store: Store = None,
-        category: str = None,
-        page: int = 1,
-        results_per_page: int = 25,
-        **filters
-    ) -> typing.List[Product]:
-        """ Returns a list of products from search results.
-        
-        Parameters:
-            query (str): the search query
-            store (Store): the store you wish to search from (defaults to None or the set store)
-            category (str): the extact name of the retailer's category you wish to get products from
-            page (int): the page number (defaults to 1)
-            results_per_page (int): the number of products per page (defaults to 25)
-            filters: additional and optional filters specific to the retailer you way use
-
-        Returns:
-            products (list): a list of Product objects
         """
         pass
